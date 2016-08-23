@@ -18,7 +18,7 @@ defmodule GitHub.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :gen_stage]]
+    [applications: [:logger, :httpoison]]
   end
 
   # Dependencies can be Hex packages:
@@ -38,6 +38,6 @@ defmodule GitHub.Mixfile do
     [{:httpoison, "0.9.0"},
      {:bypass, "~> 0.1", only: :test},
      {:poison, "~> 2.0"},
-     {:gen_stage, "~> 0.5"}]
+    ]
   end
 end

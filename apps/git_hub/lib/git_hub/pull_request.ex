@@ -1,5 +1,4 @@
 defmodule GitHub.PullRequest do
-  alias Experimental.Flow
 
   @doc """
   Load the user's repos and look for any that have open issues, then load
@@ -9,17 +8,20 @@ defmodule GitHub.PullRequest do
   throttling.
   """
   def list_my_open_prs() do
-    GitHub.get("/user/repos")
-    |> extract_body
-    |> Enum.filter(&has_issues?/1)
-    |> Flow.from_enumerable()
-    |> Flow.map(&list_open_prs/1)
-    |> Enum.to_list()
+    prs =
+      GitHub.get("/user/repos")
+      |> extract_body
+      |> Enum.filter(&has_issues?/1)
+      |> Enum.map(&list_open_prs/1)
+      |> Enum.flat_map(&Task.await/1)
+    {:ok, prs}
   end
 
   defp list_open_prs(%{"url" => url}) do
-    GitHub.get("#{url}/pulls?status=open")
-    |> extract_body
+    Task.async fn ->
+      GitHub.get("#{url}/pulls?status=open")
+      |> extract_body
+    end
   end
 
   defp has_issues?(%{"open_issues_count" => count}) do

@@ -16,11 +16,15 @@ defmodule GitHub do
     |> authorization_headers
   end
 
+  defp process_response_body(body) do
+    body
+    |> Poison.decode!
+  end
+
   defp authorization_headers(headers) do
     case Application.get_env(:git_hub, :access_token) do
       nil -> headers
       token -> headers ++ [{"Authorization", "token #{token}"}]
     end
   end
-  
 end

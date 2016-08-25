@@ -35,4 +35,8 @@ defmodule GitHub.PullRequest do
     count > 0
   end
 
+  defp has_issues?(_) do
+    false
+  end
+
 end

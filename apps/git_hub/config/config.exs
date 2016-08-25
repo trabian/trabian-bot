@@ -8,7 +8,7 @@ config :git_hub, headers: [
   {"Accept", "application/vnd.github.squirrel-girl-preview"}  
 ]
 
-config :git_hub, token: System.get_env("GITHUB_TOKEN")
+config :git_hub, access_token: System.get_env("GITHUB_TOKEN")
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

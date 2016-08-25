@@ -1,0 +1,23 @@
+APP="trabian-bot"
+
+BUILD_HOST="build.trabianbot"
+BUILD_USER="root"
+BUILD_AT="/tmp/builds/$APP"
+
+STAGING_HOSTS="staging.trabianbot"
+STAGING_USER="api"
+DELIVER_TO="/web"
+
+pre_init_app_remotely() {
+  # store current value to be able to restore it later
+  ACTUAL_PROJECT_DIR="$DELIVER_TO"
+  # set the build directory to the parent directory of the
+  # app (sub) directory for git operations
+  DELIVER_TO="$(dirname $DELIVER_TO)"
+  # repeat that for each subdir-level                        
+}
+
+pre_erlang_get_and_update_deps() {
+  # restore build directory including subdir for building
+  DELIVER_TO="$ACTUAL_PROJECT_DIR" 
+}

@@ -5,7 +5,8 @@ defmodule TrabianBot.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: [test: "test --no-start"],     
+     aliases: [test: "test --no-start"],
+     applications: [:edeliver],
      deps: deps]
   end
 
@@ -23,6 +24,8 @@ defmodule TrabianBot.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     [
+      {:distillery, "~> 0.9"},
+      {:edeliver, "~> 1.4.0"},
       {:credo, "~> 0.4", only: [:dev, :test]}
     ]
   end

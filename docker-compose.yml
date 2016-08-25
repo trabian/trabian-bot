@@ -1,0 +1,15 @@
+version: '2'
+services:
+  build:
+    build: containers/build
+    ports:
+      - "11022:22"
+  staging:
+    build: containers/staging
+    ports:
+      - "11023:22"
+      - "19080:19080"
+    volumes:
+      - ./.volumes/staging:/web
+    environment:
+      PORT: 19080

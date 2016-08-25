@@ -1,10 +1,10 @@
 defmodule ApprovalMonitor.PullRequests.Registry do
-  use GenServer
-
   @moduledoc """
   The pull request registry is responsible for maintaining references
   between pull requests and their worker processes.
   """
+
+  use GenServer
 
   # Client API
   def start_link() do
@@ -17,6 +17,18 @@ defmodule ApprovalMonitor.PullRequests.Registry do
 
   def find(id) do
     GenServer.call(__MODULE__, {:find, id})
+  end
+
+  @doc """
+  Attach the pull request to the supervisor unless it's already in the
+  registry, in which case it will return `:already_attached`.
+  """
+  def attach(%{"id" => id} = pull_request) do
+    if find(id) do
+      :already_attached
+    else
+      Supervisor.start_child(ApprovalMonitor.PullRequests.Supervisor, [pull_request])
+    end
   end
 
   ## Server callbacks

@@ -1,4 +1,8 @@
 defmodule GitHub.PullRequest do
+  @moduledoc """
+  This module provides functions for loading Pull Requests from the
+  GitHub API.
+  """
 
   def get(url) do
     GitHub.get_body(url)
@@ -13,7 +17,8 @@ defmodule GitHub.PullRequest do
   """
   def list_my_open_prs() do
     prs =
-      GitHub.get_body("/user/repos")
+      "/user/repos"
+      |> GitHub.get_body()
       |> Enum.filter(&has_issues?/1)
       |> Enum.map(&list_open_prs/1)
       |> Enum.flat_map(&Task.await/1)

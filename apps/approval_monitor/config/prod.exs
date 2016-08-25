@@ -19,6 +19,9 @@ config :approval_monitor, ApprovalMonitor.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :approval_monitor, ApprovalMonitor.PullRequests.ReactionPoller,
+  poll_interval: 15_000
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

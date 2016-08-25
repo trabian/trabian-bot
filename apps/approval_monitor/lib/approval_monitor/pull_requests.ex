@@ -1,4 +1,10 @@
 defmodule ApprovalMonitor.PullRequests do
+  @moduledoc """
+  Supervision tree for pull requests. The order specified in the
+  `children` list represents the dependency order of the processes
+  (a characteristic of OTP supervisors).
+  """
+  
   use Supervisor
   alias ApprovalMonitor.PullRequests.{Loader, Registry}
 

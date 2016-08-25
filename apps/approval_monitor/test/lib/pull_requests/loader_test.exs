@@ -8,8 +8,9 @@ defmodule ApprovalMonitor.PullRequests.LoaderTest do
     count = 1
 
     pulls =
-      Enum.to_list(1..count)
-      |> Enum.map(&(%{"id" => Integer.to_string(&1), "url" => "#{root_url}/repos/1/pulls/#{&1}"}))
+      1..count
+      |> Enum.to_list()
+      |> Enum.map(&(fake_pull(&1, root_url)))
 
     Bypass.expect(bypass, &handle_request(&1, pulls))
     
@@ -20,6 +21,16 @@ defmodule ApprovalMonitor.PullRequests.LoaderTest do
     assert Supervisor.count_children(ApprovalMonitor.PullRequests.Supervisor).active == count
 
   end
+
+  defp fake_pull(id, root_url) do
+    %{
+      "id" => Integer.to_string(id),
+      "url" => "#{root_url}/repos/1/pulls/#{id}",
+      "issue_url" => "#{root_url}/repos/1/issues/#{id}"
+    }
+  end
+
+  # Request handlers
 
   defp handle_request(%{request_path: "/user/repos"} = conn, _pulls) do
     repos = [%{"id" => 1,
@@ -41,14 +52,14 @@ defmodule ApprovalMonitor.PullRequests.LoaderTest do
     
     Plug.Conn.resp(conn, 200, Poison.encode!(reactions))
   end
-  
+
   defp handle_request(%{request_path: "/repos/1/pulls/" <> id} = conn, pulls) do
 
     pull = Enum.find(pulls, &(Map.get(&1, "id") == id))
 
     pull = Map.merge(pull,
       %{
-        "statuses_url" => Map.get(pull, "url") <> "/statuses",
+        "statuses_url" => "/statuses",
         "issue_url" => "/issue",
         "assignees" => [
           %{"login" => "user1"}
@@ -56,6 +67,10 @@ defmodule ApprovalMonitor.PullRequests.LoaderTest do
       })
 
     Plug.Conn.resp(conn, 200, Poison.encode!(pull))
+  end
+
+  defp handle_request(conn, _pulls) do
+    Plug.Conn.resp(conn, 200, "[]")
   end
 
 end

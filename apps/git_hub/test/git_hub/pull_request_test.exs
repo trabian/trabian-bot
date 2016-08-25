@@ -33,7 +33,8 @@ defmodule GitHub.PullRequestTest do
   test "list_my_open_prs when a repo is returned", %{bypass: bypass} do
 
     prs =
-      Enum.to_list(0..10)
+      0..10
+      |> Enum.to_list()
       |> Enum.map(&(%{"id" => &1}))
 
     Bypass.expect bypass, fn conn ->

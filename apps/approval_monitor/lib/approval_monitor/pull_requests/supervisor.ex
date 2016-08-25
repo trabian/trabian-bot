@@ -1,4 +1,11 @@
 defmodule ApprovalMonitor.PullRequests.Supervisor do
+  @moduledoc """
+  Supervision tree responsible for monitoring each Pull Request
+  process. PRs are attached (and automatically detached) via the
+  `ApprovalMonitor.PullRequests.Registry`, which is dependent on this
+  supervisor.
+  """
+  
   use Supervisor
   alias ApprovalMonitor.PullRequests.PullRequest
 
@@ -11,10 +18,6 @@ defmodule ApprovalMonitor.PullRequests.Supervisor do
       worker(PullRequest, [], restart: :transient)
     ]
     supervise(children, strategy: :simple_one_for_one)
-  end
-
-  def attach(pull_request) do
-    Supervisor.start_child(__MODULE__, [pull_request])
   end
 
 end

@@ -1,6 +1,6 @@
 defmodule ApprovalMonitor.HookController do
   use ApprovalMonitor.Web, :controller
-  alias ApprovalMonitor.PullRequests.{Registry,PullRequest,Supervisor}
+  alias ApprovalMonitor.PullRequests.{Registry,PullRequest}
 
   def post(%Plug.Conn{req_headers: req_headers} = conn, params) do
     with {"x-github-event", event} <- List.keyfind(req_headers, "x-github-event", 0) do
@@ -13,11 +13,12 @@ defmodule ApprovalMonitor.HookController do
 
   defp handle_event("pull_request", conn, %{"action" => action, "pull_request" => pull_request}) do
     pid =
-      Map.get(pull_request, "id")
+      pull_request
+      |> Map.get("id")
       |> Registry.find
     
     case pid do
-      nil -> Supervisor.attach(pull_request)
+      nil -> Registry.attach(pull_request)
       _ -> PullRequest.handle_action(pid, {action, pull_request})
     end
     

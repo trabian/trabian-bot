@@ -11,7 +11,8 @@ defmodule ApprovalMonitor.PullRequests.ApprovalStatus do
   and reactions.
   """
   def status(assignees, reactions) do
-    get_approvals(assignees, reactions)
+    assignees
+    |> get_approvals(reactions)
     |> message
   end
 

@@ -1,5 +1,5 @@
 defmodule ApprovalMonitor.PullRequests.PullRequest do
-  alias ApprovalMonitor.PullRequests.{ApprovalStatus,Registry}
+  alias ApprovalMonitor.PullRequests.{ApprovalStatus,Registry,ReactionPoller}
   
   @moduledoc """
   Each PullRequest process is responsible for responding to (and
@@ -66,7 +66,6 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
   end
 
   def handle_info({:update_reactions, reactions}, state) do
-    IO.inspect(reactions)
     check_approval_status(state, %{"reactions" => reactions})
     {:noreply, state}
   end
@@ -75,8 +74,8 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
     {:noreply, state}
   end
 
-  def terminate(reason, _state) do
-    IO.inspect(reason)
+  def terminate(_reason, _state) do
+
   end
 
   @doc """
@@ -96,7 +95,8 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
            assignees <- Map.get(pull_request, "assignees") do
 
       status =
-        ApprovalStatus.status(assignees, reactions)
+        assignees
+        |> ApprovalStatus.status(reactions)
         |> Map.put(:context, "trabian/code-review")
         |> Poison.encode!()
       
@@ -107,8 +107,13 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
   end
 
   defp poll_reactions(pull_request) do
-    Map.get(pull_request, "issue_url") <> "/reactions"
+    pull_request
+    |> reaction_url()
     |> ReactionPoller.start_link(self())
+  end
+
+  defp reaction_url(pull_request) do
+    Map.get(pull_request, "issue_url") <> "/reactions"
   end
   
   # We'll use the presence of the state attribute to signal that we have
@@ -126,9 +131,12 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
   defp get_reactions(%{"reactions" => reactions}), do: {:ok, reactions}
   
   defp get_reactions(%{"issue_url" => issue_url}) do
-    reactions = 
-      issue_url <> "/reactions"
+    reactions_url = issue_url <> "/reactions"
+    
+    reactions =
+      reactions_url
       |> GitHub.PullRequest.get
+    
     {:ok, reactions}
   end
 

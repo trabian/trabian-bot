@@ -20,10 +20,17 @@ defmodule ApprovalMonitor.PullRequests.Loader do
     {:ok, []}
   end
 
+  @doc """
+  Each pull request will spawn a separate process to respond to
+  (and poll for) events related to that PR, then post updates to
+  the GitHub API as needed.
+  """
   def handle_info(:load, state) do
-    {:ok, _pulls} = PullRequest.list_my_open_prs()
+    {:ok, pulls} = PullRequest.list_my_open_prs()
+
+    Enum.each(pulls, &ApprovalMonitor.PullRequests.Supervisor.attach/1)
 
     {:noreply, state}
   end
-	
+
 end

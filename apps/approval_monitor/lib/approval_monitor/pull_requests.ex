@@ -1,6 +1,6 @@
 defmodule ApprovalMonitor.PullRequests do
   use Supervisor
-  alias ApprovalMonitor.PullRequests.{Loader}
+  alias ApprovalMonitor.PullRequests.{Loader, Registry}
 
   def start_link do
     Supervisor.start_link(__MODULE__, [])
@@ -9,6 +9,7 @@ defmodule ApprovalMonitor.PullRequests do
   def init([]) do
     children = [
       supervisor(ApprovalMonitor.PullRequests.Supervisor, []),
+      worker(Registry, []),
       worker(Loader, []),
     ]
 

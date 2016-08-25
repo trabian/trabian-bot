@@ -1,6 +1,12 @@
 defmodule GitHub do
   use HTTPoison.Base
 
+  def get_body(url) do
+    url
+    |> get()
+    |> extract_body()
+  end
+
   def process_url(url) do
     endpoint = Application.get_env(:git_hub, :endpoint)
     if String.starts_with?(url, endpoint) do
@@ -27,4 +33,9 @@ defmodule GitHub do
       token -> headers ++ [{"Authorization", "token #{token}"}]
     end
   end
+
+  defp extract_body({:ok, %{body: body}}) do
+    body
+  end
+  
 end

@@ -5,6 +5,7 @@ defmodule TrabianBot.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: [test: "test --no-start"],     
      deps: deps]
   end
 
@@ -21,6 +22,8 @@ defmodule TrabianBot.Mixfile do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps folder
   defp deps do
-    [{:mix_test_watch, "~> 0.2", only: :dev}]
+    [
+      {:credo, "~> 0.4", only: [:dev, :test]}
+    ]
   end
 end

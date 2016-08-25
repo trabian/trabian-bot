@@ -36,6 +36,8 @@ defmodule GitHub.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, "0.9.0"},
-     {:bypass, "~> 0.1", only: :test}]
+     {:bypass, "~> 0.1", only: :test},
+     {:poison, "~> 2.0"},
+    ]
   end
 end

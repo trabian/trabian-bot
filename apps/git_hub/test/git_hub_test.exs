@@ -67,6 +67,20 @@ defmodule GitHubTest do
     
     Application.put_env(:git_hub, :access_token, token)
     
+
+  end
+
+  @tag :bypass
+  test "body is converted to json", %{bypass: bypass} do
+
+    Bypass.expect bypass, fn conn ->
+      Plug.Conn.resp(conn, 200, Poison.encode!(%{"test" => "this"}))
+    end
+
+    {:ok, %{body: body}} = GitHub.get("/test")
+
+    assert body == %{"test" => "this"}
+
   end
 
   defp endpoint_url(port), do: "http://localhost:#{port}"

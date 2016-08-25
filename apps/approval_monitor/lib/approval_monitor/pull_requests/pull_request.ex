@@ -27,6 +27,10 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
     GenServer.cast(pid, {:action, action, pull_request})
   end
 
+  def stop(pid) do
+    GenServer.stop(pid)
+  end
+
   # Callbacks
 
   @doc """
@@ -49,6 +53,12 @@ defmodule ApprovalMonitor.PullRequests.PullRequest do
   def handle_cast({:action, action, pull_request}, state) when action in ["assigned", "unassigned"] do
     check_approval_status(state, pull_request)
     {:noreply, state}
+  end
+
+  # Stop the process when the PR is closed
+  def handle_cast({:action, "closed", pull_request}, state) do
+    check_approval_status(state, pull_request)
+    {:stop, :normal, state}
   end
 
   def handle_cast({:action, _, _}, state) do

@@ -9,7 +9,9 @@ use Mix.Config
 # back to each application for organization purposes.
 import_config "../apps/*/config/config.exs"
 
-import_config "./config.secret.exs"
+if Mix.env in [:dev, :test] do
+  import_config "./config.secret.exs"
+end
 
 # Sample configuration (overrides the imported configuration above):
 #

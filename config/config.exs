@@ -13,8 +13,6 @@ if Mix.env in [:dev, :test] do
   import_config "./config.secret.exs"
 end
 
-config :git_hub, :test, "${PORT}"
-
 # Sample configuration (overrides the imported configuration above):
 #
 #     config :logger, :console,

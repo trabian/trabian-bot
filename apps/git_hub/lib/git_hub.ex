@@ -39,7 +39,7 @@ defmodule GitHub do
   unless it's already present.
   """
   def process_url(url) do
-    endpoint = Application.get_env(:git_hub, :endpoint)
+    endpoint = Config.get(:git_hub, :endpoint)
     if String.starts_with?(url, endpoint) do
       url
     else
@@ -49,7 +49,7 @@ defmodule GitHub do
 
   defp process_request_headers(headers) do
     headers
-    |> Enum.into(Application.get_env(:git_hub, :headers, []))
+    |> Enum.into(Config.get(:git_hub, :headers, []))
     |> authorization_headers
   end
 
@@ -59,7 +59,7 @@ defmodule GitHub do
   end
 
   defp authorization_headers(headers) do
-    case Application.get_env(:git_hub, :access_token) do
+    case Config.get(:git_hub, :access_token) do
       nil -> headers
       token -> headers ++ [{"Authorization", "token #{token}"}]
     end

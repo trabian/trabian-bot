@@ -8,13 +8,13 @@ config :git_hub, headers: [
   {"Accept", "application/vnd.github.squirrel-girl-preview"}  
 ]
 
-token = if Mix.env == :prod do
-  "$GITHUB_TOKEN"
-else
-  System.get_env("GITHUB_TOKEN")
-end
+# token = if Mix.env == :prod do
+#   "$GITHUB_TOKEN"
+# else
+#   System.get_env("GITHUB_TOKEN")
+# end
 
-config :git_hub, access_token: token
+config :git_hub, access_token: {:system, "GITHUB_TOKEN"}
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

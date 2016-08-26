@@ -15,6 +15,8 @@ RUN mkdir -p /tmp/builds/trabian-bot
 
 COPY ssh_key.pub /root/.ssh/authorized_keys
 
+# COPY vm.args /etc/trabian_bot/vm.args
+
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en

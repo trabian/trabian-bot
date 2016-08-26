@@ -21,6 +21,7 @@ end
 environment :prod do
   set include_erts: true
   set include_src: false
+  plugin Releases.Plugin.LinkConfig  
 end
 
 # You may define one or more releases in this file.

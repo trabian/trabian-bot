@@ -13,6 +13,8 @@ COPY add_env_hook /tmp/add_env_hook
 
 RUN /bin/sh /tmp/add_env_hook
 
+COPY vm.args /etc/trabian_bot/vm.args
+
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en

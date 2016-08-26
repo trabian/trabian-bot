@@ -1,4 +1,5 @@
 APP="trabian_bot"
+LINK_VM_ARGS="/etc/trabian_bot/vm.args"
 
 BUILD_HOST="build.trabianbot"
 BUILD_USER="root"

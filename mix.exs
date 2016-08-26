@@ -7,7 +7,7 @@ defmodule TrabianBot.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: [test: "test --no-start"],
-     #applications: [:edeliver],
+     applications: [:edeliver],
      deps: deps]
   end
 

@@ -5,10 +5,10 @@ BUILD_USER="root"
 BUILD_AT="/tmp/builds/$APP"
 
 STAGING_HOSTS="staging.trabianbot"
-STAGING_USER="api"
+STAGING_USER="staging"
 DELIVER_TO="/web"
 
-RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
+# RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
 USING_DISTILLERY=true
 

@@ -17,3 +17,6 @@ erl_crash.dump
 *.ez
 
 config/*.secret.exs
+
+/.deliver/releases
+/.volumes

@@ -10,6 +10,8 @@ DELIVER_TO="/web"
 
 RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
+USING_DISTILLERY=true
+
 pre_erlang_clean_compile() {
   [[ "$APP" = "trabian_bot" ]] && prepare_projects_in_umbrella
 }

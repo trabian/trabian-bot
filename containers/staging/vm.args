@@ -1,8 +1,8 @@
 ## Name of the node
 -name trabian_bot@127.0.0.1
--kernel inet_dist_listen_min 9001 inet_dist_listen_max 9001
 
-## Cookie for distributed erlang
+## Cookie for distributed erlang. Use a different (more secure) cookie in a
+## production enviroment.
 -setcookie trabian_bot
 
 ## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive

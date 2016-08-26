@@ -9,8 +9,6 @@ services:
     ports:
       - "11023:22"
       - "19080:19080"
-      - "14369:4369"
-      - "19001:9001"
     volumes:
       - ./.volumes/staging:/web
     environment:

@@ -9,6 +9,9 @@ STAGING_HOSTS="staging.trabianbot"
 STAGING_USER="staging"
 DELIVER_TO="/web"
 
+PRODUCTION_HOSTS="bot.trabian.com"
+PRODUCTION_USER="root"
+
 # RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
 USING_DISTILLERY=true

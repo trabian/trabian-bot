@@ -1,18 +1,15 @@
 #!/bin/bash
 
 # Add the current environment's exports to /home/staging/.bashrc
-env | sed 's/^/export /' >> /home/staging/.bashrc
+# env | sed 's/^/export /' >> /home/staging/.bashrc
 
-# Start the application if it's already in the container
-appbin="/web/membership/bin/membership"
+cat > /home/staging/.docker_env <<- EOM
+export PORT=$PORT
+export RELX_REPLACE_OS_VARS=true
+export GITHUB_TOKEN=$GITHUB_TOKEN
+EOM
 
-if [ -e "${appbin}" ]
-then
-    echo "Starting application"
-    eval "sudo -E -u staging ${appbin} start"
-else
-    echo "The application hasn't been deployed to this container yet. Please refer to the project's README for instructions on how to deploy using edeliver."
-fi
+chown staging:staging /home/staging/.docker_env
 
 # Run sshd daemon to support hot delivery of new releases without
 # requiring new docker container deployment.

@@ -20,3 +20,4 @@ config/*.secret.exs
 
 /.deliver/releases
 /.volumes
+/rel/trabian_bot

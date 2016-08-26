@@ -27,7 +27,7 @@ defmodule TrabianBot.Mixfile do
     [
       {:distillery, "~> 0.9"},
       {:edeliver, "~> 1.4.0"},
-      {:credo, "~> 0.4", only: [:dev, :test]}
+      {:credo, "~> 0.4", only: [:dev, :test]},
     ]
   end
 

@@ -3,10 +3,11 @@ defmodule TrabianBot.Mixfile do
 
   def project do
     [apps_path: "apps",
+     version: append_revision("0.0.1"),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: [test: "test --no-start"],
-     applications: [:edeliver],
+     #applications: [:edeliver],
      deps: deps]
   end
 
@@ -28,5 +29,15 @@ defmodule TrabianBot.Mixfile do
       {:edeliver, "~> 1.4.0"},
       {:credo, "~> 0.4", only: [:dev, :test]}
     ]
+  end
+
+  defp append_revision(version) do
+    "#{version}+#{revision}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.rstrip
   end
 end

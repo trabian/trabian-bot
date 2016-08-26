@@ -10,8 +10,7 @@ DELIVER_TO="/web"
 
 RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
-post_erlang_clean_compile() {
-  status "Clean compile"
+pre_erlang_clean_compile() {
   [[ "$APP" = "trabian_bot" ]] && prepare_projects_in_umbrella
 }
 

@@ -13,6 +13,8 @@ config :approval_monitor, ApprovalMonitor.Endpoint,
   pubsub: [name: ApprovalMonitor.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :phoenix, serve_endpoints: true
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

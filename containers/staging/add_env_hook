@@ -1,0 +1,7 @@
+# Add a docker environment hook to .bashrc
+
+cat >> /home/staging/.profile <<- EOM
+if [ -f ~/.docker_env ]; then
+  . ~/.docker_env
+fi
+EOM

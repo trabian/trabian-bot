@@ -3,9 +3,11 @@ defmodule TrabianBot.Mixfile do
 
   def project do
     [apps_path: "apps",
+     version: append_revision("0.0.1"),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: [test: "test --no-start"],     
+     aliases: [test: "test --no-start"],
+     applications: [:edeliver],
      deps: deps]
   end
 
@@ -23,7 +25,19 @@ defmodule TrabianBot.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     [
-      {:credo, "~> 0.4", only: [:dev, :test]}
+      {:distillery, "~> 0.9"},
+      {:edeliver, "~> 1.4.0"},
+      {:credo, "~> 0.4", only: [:dev, :test]},
     ]
+  end
+
+  defp append_revision(version) do
+    "#{version}+#{revision}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.rstrip
   end
 end

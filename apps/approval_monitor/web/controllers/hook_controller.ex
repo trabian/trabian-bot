@@ -2,6 +2,10 @@ defmodule ApprovalMonitor.HookController do
   use ApprovalMonitor.Web, :controller
   alias ApprovalMonitor.PullRequests.{Registry,PullRequest}
 
+  def status(conn, _params) do
+    text(conn, "ok")
+  end
+
   def post(%Plug.Conn{req_headers: req_headers} = conn, params) do
     with {"x-github-event", event} <- List.keyfind(req_headers, "x-github-event", 0) do
       handle_event(event, conn, params)

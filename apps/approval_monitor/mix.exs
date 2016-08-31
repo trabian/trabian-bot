@@ -3,7 +3,7 @@ defmodule ApprovalMonitor.Mixfile do
 
   def project do
     [app: :approval_monitor,
-     version: "0.0.1",
+     version: append_revision("0.0.1"),
      build_path: "../../_build",
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
@@ -13,7 +13,7 @@ defmodule ApprovalMonitor.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: [test: "test --no-start"],     
+     aliases: [test: "test --no-start"],
      deps: deps()]
   end
 
@@ -47,4 +47,15 @@ defmodule ApprovalMonitor.Mixfile do
      {:git_hub, in_umbrella: true},
      {:cowboy, "~> 1.0"}]
   end
+
+  defp append_revision(version) do
+    "#{version}+#{revision}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.rstrip
+  end
+
 end

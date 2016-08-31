@@ -7,6 +7,7 @@ defmodule ApprovalMonitor.Router do
 
   scope "/api", ApprovalMonitor do
     pipe_through :api
+    get "/status", HookController, :status
     post "/hook", HookController, :post
   end
 end
